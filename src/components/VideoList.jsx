@@ -1,9 +1,8 @@
-var VideoList = (props) => (
-
-  <div className="video-list media">
+var VideoList = (props) => {
+  return (<div className="video-list media">
     {props.videos.map(videoObj => <VideoListEntry video={videoObj} clickHandler={props.clickHandler} context={props.context}/>)}
-  </div>
-);
+  </div>);
+};
 
 // Warnings will be shown in the console when the defined rules are violated
 VideoList.propTypes = {

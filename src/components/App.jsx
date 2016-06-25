@@ -1,11 +1,34 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
-    
-    this.state = {
-      allVideos: props.videoData,
-      currentVideo: props.videoData[0],
+    // if (props.videoData) {
+    //   var videos = props.videoData;
+    // } else {
+    //   var videos = exampleVideoData;
+    // }
+
+    var options = {
+      query: 'react',
+      max: 5,
+      key: YOUTUBE_API_KEY,
     };
+
+    this.state = {
+      allVideos: [],
+      currentVideo: undefined,
+    };
+
+    props.searchYouTube(options, (data) => {
+      if (data.items) {
+        var videoData = data.items;
+      } else {
+        var videoData = data;
+      }
+      this.setState({
+        allVideos: videoData,
+        currentVideo: videoData[0]
+      });
+    });
 
   }
 
@@ -15,31 +38,32 @@ class App extends React.Component {
     });
   }
 
-  onSubmit(searchString) {
+  onSubmit(searchString = 'react') {
 
     var options = {
-      q: searchString,
+      query: searchString,
       max: 5,
       key: YOUTUBE_API_KEY,
     };
 
     searchYouTube(options, (data) => this.setState({
-      allVideos: data.items
+      allVideos: data.items,
+      currentVideo: data.items[0]
     }));
   }
 
   render() {
-    return (
-      <div>
-        <Nav />
-        <div className="col-md-7">
-          <VideoPlayer video={this.state.currentVideo}/>
+      return (
+        <div>
+          <Nav />
+          <div className="col-md-7">
+            <VideoPlayer video={this.state.currentVideo}/>
+          </div>
+          <div className="col-md-5">
+            <VideoList videos={this.state.allVideos} clickHandler={this.onClick} context={this}/>
+          </div>
         </div>
-        <div className="col-md-5">
-          <VideoList videos={this.state.allVideos} clickHandler={this.onClick} context={this}/>
-        </div>
-      </div>
-    );
+      );
   }
 }
 
