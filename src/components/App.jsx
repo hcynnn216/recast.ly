@@ -21,7 +21,8 @@ class App extends React.Component {
       }
       this.setState({
         allVideos: videoData,
-        currentVideo: videoData[0]
+        currentVideo: videoData[0],
+        inputString: ''
       });
     });
 
@@ -33,32 +34,38 @@ class App extends React.Component {
     });
   }
 
-  onSubmit(event, searchString = 'react') {
-    console.log(event);
-    // var options = {
-    //   query: searchString,
-    //   max: 5,
-    //   key: YOUTUBE_API_KEY,
-    // };
+  onSubmit(event) {
+    var options = {
+      query: this.state.inputString || 'react',
+      max: 5,
+      key: YOUTUBE_API_KEY,
+    };
 
-    // searchYouTube(options, (data) => this.setState({
-    //   allVideos: data.items,
-    //   currentVideo: data.items[0]
-    // }));
+    searchYouTube(options, (data) => this.setState({
+      allVideos: data.items,
+      currentVideo: data.items[0]
+    }));
+  }
+
+  onChange(event) {
+    console.log(event.target.value);
+    this.setState({
+      inputString: event.target.value
+    });
   }
 
   render() {
-      return (
-        <div>
-          <Nav submitHandler={this.onSubmit} context={this}/>
-          <div className="col-md-7">
-            <VideoPlayer video={this.state.currentVideo}/>
-          </div>
-          <div className="col-md-5">
-            <VideoList videos={this.state.allVideos} clickHandler={this.onClick} context={this}/>
-          </div>
+    return (
+      <div>
+        <Nav submitHandler={this.onSubmit} changeHandler={this.onChange} context={this}/>
+        <div className="col-md-7">
+          <VideoPlayer video={this.state.currentVideo}/>
         </div>
-      );
+        <div className="col-md-5">
+          <VideoList videos={this.state.allVideos} clickHandler={this.onClick} context={this}/>
+        </div>
+      </div>
+    );
   }
 }
 

@@ -1,18 +1,12 @@
-class Search extends React.Component {
-  constructor(props) {
-    
-  } 
+var Search = (props) => {
 
-  render() {
-    return (<div className="search-bar form-inline">
-              <input className="form-control" type="text" />
-              <button className="btn hidden-sm-down" onClick={props.submitHandler.bind(this, event)}>
-                <span className="glyphicon glyphicon-search"></span>
-              </button>
-            </div>); 
-    
-  }
-}
+  return (<div className="search-bar form-inline">
+            <input className="form-control" type="text" onChange={props.changeHandler.bind(props.context)} />
+            <button className="btn hidden-sm-down" onClick={props.submitHandler.bind(props.context)}>
+              <span className="glyphicon glyphicon-search"></span>
+            </button>
+          </div>); 
+};
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
