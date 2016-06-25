@@ -1,11 +1,6 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
-    // if (props.videoData) {
-    //   var videos = props.videoData;
-    // } else {
-    //   var videos = exampleVideoData;
-    // }
 
     var options = {
       query: 'react',
@@ -38,24 +33,24 @@ class App extends React.Component {
     });
   }
 
-  onSubmit(searchString = 'react') {
+  onSubmit(event, searchString = 'react') {
+    console.log(event);
+    // var options = {
+    //   query: searchString,
+    //   max: 5,
+    //   key: YOUTUBE_API_KEY,
+    // };
 
-    var options = {
-      query: searchString,
-      max: 5,
-      key: YOUTUBE_API_KEY,
-    };
-
-    searchYouTube(options, (data) => this.setState({
-      allVideos: data.items,
-      currentVideo: data.items[0]
-    }));
+    // searchYouTube(options, (data) => this.setState({
+    //   allVideos: data.items,
+    //   currentVideo: data.items[0]
+    // }));
   }
 
   render() {
       return (
         <div>
-          <Nav />
+          <Nav submitHandler={this.onSubmit} context={this}/>
           <div className="col-md-7">
             <VideoPlayer video={this.state.currentVideo}/>
           </div>
