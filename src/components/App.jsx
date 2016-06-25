@@ -1,16 +1,31 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
+    
     this.state = {
-      currentVideo: exampleVideoData[0]
+      allVideos: props.videoData,
+      currentVideo: props.videoData[0],
     };
+
   }
 
   onClick(video) {
     this.setState({
       currentVideo: video
     });
-    console.log(this.state.currentVideo.snippet.title);
+  }
+
+  onSubmit(searchString) {
+
+    var options = {
+      q: searchString,
+      max: 5,
+      key: YOUTUBE_API_KEY,
+    };
+
+    searchYouTube(options, (data) => this.setState({
+      allVideos: data.items
+    }));
   }
 
   render() {
@@ -21,7 +36,7 @@ class App extends React.Component {
           <VideoPlayer video={this.state.currentVideo}/>
         </div>
         <div className="col-md-5">
-          <VideoList videos={exampleVideoData} clickHandler={this.onClick} context={this}/>
+          <VideoList videos={this.state.allVideos} clickHandler={this.onClick} context={this}/>
         </div>
       </div>
     );
