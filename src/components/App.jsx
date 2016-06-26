@@ -41,14 +41,16 @@ class App extends React.Component {
       key: YOUTUBE_API_KEY,
     };
 
-    searchYouTube(options, (data) => this.setState({
-      allVideos: data.items,
-      currentVideo: data.items[0]
-    }));
+    searchYouTube(options, (data) => {
+      console.log(data.items[0]);
+      this.setState({
+        allVideos: data.items,
+        currentVideo: data.items[0]
+      });
+    });
   }
 
   onChange(event) {
-    console.log(event.target.value);
     this.setState({
       inputString: event.target.value
     });
